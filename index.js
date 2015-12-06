@@ -1,18 +1,16 @@
 'use strict';
-var rels = ['prev', 'next', 'last', 'first'];
 module.exports = function (link) {
 	if (typeof link !== 'string') {
 		throw new TypeError('Expected a string');
 	}
 
-	var result = {};
+	return link.split(', ').reduce(function (result, part) {
+		var matcher = part.match('<(.*?)>; rel="(.*?)"');
 
-	rels.forEach(function (rel) {
-		var url = link.match('<([^>]*?)>; rel="' + rel + '"');
-		if (url) {
-			result[rel] = url[1];
+		if (matcher.length === 3) {
+			result[matcher[2]] = matcher[1];
 		}
-	});
 
-	return result;
+		return result;
+	}, {});
 };

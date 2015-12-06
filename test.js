@@ -1,14 +1,11 @@
 import test from 'ava';
 import fn from './';
 
-test('parse', t => {
-	t.same(fn('<https://api.github.com/user/abc/events?page=2>; rel="next", <https://api.github.com/user/abc/events?page=10>; rel="last"'), {
-		next: 'https://api.github.com/user/abc/events?page=2',
-		last: 'https://api.github.com/user/abc/events?page=10'
-	});
+test('error', t => {
+	t.throws(fn, 'Expected a string');
+});
 
-	t.same(fn('<https://api.github.com/user/abc/events?page=1>; rel="first", <https://api.github.com/user/abc/events?page=9>; rel="prev"'), {
-		first: 'https://api.github.com/user/abc/events?page=1',
-		prev: 'https://api.github.com/user/abc/events?page=9'
-	});
+test('parse', t => {
+	t.same(fn('<foo>; rel="next", <bar>; rel="last"'), {next: 'foo', last: 'bar'});
+	t.same(fn('<foo>; rel="first", <bar>; rel="prev", <baz>; rel="next"'), {first: 'foo', prev: 'bar', next: 'baz'});
 });
