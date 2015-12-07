@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function (link) {
 	if (typeof link !== 'string') {
-		throw new TypeError('Expected a string');
+		return {};
 	}
 
 	return link.split(', ').reduce(function (result, part) {
