@@ -5,10 +5,10 @@ module.exports = function (link) {
 	}
 
 	return link.split(', ').reduce(function (result, part) {
-		var matcher = part.match('<(.*?)>; rel="(.*?)"');
+		var match = part.match('<(.*?)>; rel="(.*?)"');
 
-		if (matcher.length === 3) {
-			result[matcher[2]] = matcher[1];
+		if (match && match.length === 3) {
+			result[match[2]] = match[1];
 		}
 
 		return result;
